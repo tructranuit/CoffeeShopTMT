@@ -25,6 +25,8 @@ public class HomeFragment extends Fragment {
     ViewPager viewPager;
     ArrayList<Integer> imageList;
     ViewPagerAdapter viewPagerAdapter;
+    Timer timer;
+
 
     public HomeFragment() {
         // Required empty public constructor
@@ -47,31 +49,34 @@ public class HomeFragment extends Fragment {
         viewPagerAdapter = new ViewPagerAdapter(getContext(), imageList);
         viewPager.setAdapter(viewPagerAdapter);
 
-        Timer timer = new Timer();
-        timer.scheduleAtFixedRate(new MyTimerTask(), 2000, 4000);
+        timer = new Timer();
+        timer.scheduleAtFixedRate(new MyTimerTask(), 5000, 5000);
         return view;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (timer != null) {
+            timer.cancel();
+        }
     }
 
     public class MyTimerTask extends TimerTask {
 
         @Override
         public void run() {
-            new Thread(){
+
+            getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            if (viewPager.getCurrentItem() == viewPagerAdapter.getCount() - 1) {
-                                viewPager.setCurrentItem(0);
-                            } else {
-                                viewPager.setCurrentItem(viewPager.getCurrentItem() + 1);
-                            }
-                        }
-                    });
-                    super.run();
+                    if (viewPager.getCurrentItem() == viewPagerAdapter.getCount() - 1) {
+                        viewPager.setCurrentItem(0);
+                    } else {
+                        viewPager.setCurrentItem(viewPager.getCurrentItem() + 1);
+                    }
                 }
-            };
+            });
 
         }
     }
