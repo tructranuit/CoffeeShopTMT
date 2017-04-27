@@ -1,6 +1,7 @@
 package ivc.coffee.shop.tmtruc.com.fragment;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -20,6 +21,7 @@ import java.util.TimerTask;
 
 import ivc.coffee.shop.tmtruc.com.R;
 import ivc.coffee.shop.tmtruc.com.activity.MainActivity;
+import ivc.coffee.shop.tmtruc.com.activity.MapsActivity;
 import ivc.coffee.shop.tmtruc.com.adapter.ViewPagerAdapter;
 
 /**
@@ -65,6 +67,15 @@ public class HomeFragment extends Fragment {
         viewFlipper.setInAnimation(AnimationUtils.loadAnimation(getContext(), android.R.anim.slide_in_left));
         viewFlipper.setOutAnimation(AnimationUtils.loadAnimation(getContext(), android.R.anim.slide_out_right));
         viewFlipper.setAutoStart(true);
+
+        ImageView imageView = (ImageView) view.findViewById(R.id.img_google_map);
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), MapsActivity.class);
+                startActivity(intent);
+            }
+        });
 
 
 
